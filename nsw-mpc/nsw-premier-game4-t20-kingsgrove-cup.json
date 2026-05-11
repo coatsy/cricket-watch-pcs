@@ -1,0 +1,107 @@
+{
+  "name": "NSW Premier Cricket - Kingsgrove Sports T20 Cup",
+  "version": "2025-26.1",
+  "source": "SCA Game 4 Playing Conditions 2025/26",
+  "format": "T20",
+  "innings": {
+    "count": 2,
+    "overs_per_innings": 20,
+    "change_of_innings": {
+      "duration_minutes": 15,
+      "overs_lost": 0,
+      "waived_during_interval": false
+    }
+  },
+  "schedule": {
+    "start_time_options": ["10:00", "14:30"],
+    "sessions": [
+      {
+        "label": "First Innings",
+        "duration_minutes": 80
+      },
+      {
+        "label": "Second Innings",
+        "duration_minutes": 80
+      }
+    ],
+    "total_playing_time_minutes": 160,
+    "intervals": []
+  },
+  "over_rate": {
+    "unit": "minutes_per_over",
+    "value": 4,
+    "enforcement": {
+      "innings_time_limit_minutes": 80,
+      "penalty": {
+        "type": "fielding_restriction",
+        "max_fielders_outside": 4,
+        "description": "If bowling team fails to commence final over within 80 minutes, max 4 fielders outside restriction area from next over"
+      }
+    }
+  },
+  "bowling_restrictions": {
+    "max_overs_per_bowler": {
+      "default": 4,
+      "reduced_overs_formula": "floor(total_overs / 5) + (1 if total_overs % 5 != 0 else 0)"
+    }
+  },
+  "power_plays": {
+    "fixed": [
+      {
+        "name": "Mandatory Powerplay",
+        "start_over": 1,
+        "end_over": 4,
+        "max_fielders_outside": 2
+      }
+    ],
+    "floating": [
+      {
+        "name": "Power Surge",
+        "consecutive_overs": 2,
+        "eligible_window_start_over": 11,
+        "eligible_window_end_over": 19,
+        "triggered_by": "batter",
+        "max_fielders_outside": 2,
+        "auto_activate_at_last_eligible": true
+      }
+    ],
+    "non_restriction_max_fielders_outside": 5,
+    "reduced_overs_table": [
+      { "total_overs": 20, "fixed_pp_overs": 4, "floating_pp_overs": 2, "floating_window": "11-19" },
+      { "total_overs": 19, "fixed_pp_overs": 4, "floating_pp_overs": 1, "floating_window": "10-18" },
+      { "total_overs": 18, "fixed_pp_overs": 4, "floating_pp_overs": 1, "floating_window": "10-17" },
+      { "total_overs": 17, "fixed_pp_overs": 4, "floating_pp_overs": 1, "floating_window": "9-16" },
+      { "total_overs": 16, "fixed_pp_overs": 4, "floating_pp_overs": 1, "floating_window": "9-15" },
+      { "total_overs": 15, "fixed_pp_overs": 3, "floating_pp_overs": 1, "floating_window": "8-14" },
+      { "total_overs": 14, "fixed_pp_overs": 3, "floating_pp_overs": 1, "floating_window": "8-13" },
+      { "total_overs": 13, "fixed_pp_overs": 2, "floating_pp_overs": 1, "floating_window": "7-12" },
+      { "total_overs": 12, "fixed_pp_overs": 2, "floating_pp_overs": 1, "floating_window": "7-11" },
+      { "total_overs": 11, "fixed_pp_overs": 2, "floating_pp_overs": 1, "floating_window": "6-10" },
+      { "total_overs": 10, "fixed_pp_overs": 2, "floating_pp_overs": 1, "floating_window": "6-9" },
+      { "total_overs": 9, "fixed_pp_overs": 2, "floating_pp_overs": 0, "floating_window": null },
+      { "total_overs": 8, "fixed_pp_overs": 2, "floating_pp_overs": 0, "floating_window": null },
+      { "total_overs": 7, "fixed_pp_overs": 2, "floating_pp_overs": 0, "floating_window": null },
+      { "total_overs": 6, "fixed_pp_overs": 1, "floating_pp_overs": 0, "floating_window": null },
+      { "total_overs": 5, "fixed_pp_overs": 1, "floating_pp_overs": 0, "floating_window": null }
+    ]
+  },
+  "delay_reduction_rules": {
+    "before_or_during_first_innings": {
+      "buffer_minutes": 32,
+      "minutes_per_over_lost": 8,
+      "applies_to": "both_innings"
+    },
+    "after_first_innings": {
+      "buffer_minutes": 32,
+      "minutes_per_over_lost": 4,
+      "applies_to": "second_innings_only"
+    },
+    "minimum_overs_for_result": 5,
+    "dls_method": "DLS_v5.0"
+  },
+  "super_over": {
+    "enabled": true,
+    "fielding_restriction": "same_as_last_over",
+    "subsequent_super_overs": false
+  }
+}

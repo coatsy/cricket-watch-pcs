@@ -1,0 +1,116 @@
+{
+  "name": "MWCA - Two-Day 1st to 5th Grade",
+  "version": "2025-26.1",
+  "source": "MWCA Handbook Part 8.1 Playing Conditions 2025/26",
+  "format": "Timed Two-Day",
+  "notes": "Afternoon-only play (1pm start). Synthetic pitches allowed. 14 players may be nominated with Day 1/Day 2 swaps (8 play both days, up to 3 swap per day).",
+  "innings": {
+    "count": 4,
+    "overs_per_innings": null,
+    "type": "timed",
+    "compulsory_closure": {
+      "enabled": true,
+      "max_overs_first_innings_by_grade": {
+        "1st": 80,
+        "2nd": 75,
+        "3rd": 75,
+        "4th": 50,
+        "5th": 50
+      }
+    },
+    "follow_on": {
+      "enabled": true,
+      "threshold_runs": 75
+    },
+    "declarations": {
+      "permitted": true,
+      "constraint": null
+    },
+    "change_of_innings": {
+      "duration_minutes": 10,
+      "overs_lost": 3,
+      "waived_during_interval": false,
+      "waived_during_weather_break": false
+    }
+  },
+  "schedule": {
+    "days": 2,
+    "default_daily_schedule": {
+      "start_time": "13:00",
+      "close_of_play": "17:30",
+      "extra_time_minutes": 0,
+      "hard_cutoff": null,
+      "sessions": [
+        { "label": "Session 1", "start": "13:00", "end": "14:03", "overs": 18 },
+        { "label": "Drinks", "start": "14:03", "end": "14:06", "duration_minutes": 3 },
+        { "label": "Session 2", "start": "14:06", "end": "15:05", "overs": 17 },
+        { "label": "Tea", "start": "15:05", "end": "15:25", "duration_minutes": 20 },
+        { "label": "Session 3", "start": "15:25", "end": "16:28", "overs": 18 },
+        { "label": "Drinks", "start": "16:28", "end": "16:31", "duration_minutes": 3 },
+        { "label": "Session 4", "start": "16:31", "end": "17:30", "overs": 17 }
+      ],
+      "intervals": [
+        {
+          "type": "Tea",
+          "time": "15:05",
+          "duration_minutes": 20,
+          "advance_alert_minutes": 3,
+          "nine_wickets_down_postpone_minutes": 30,
+          "captains_may_forgo": true,
+          "mandatory_closure_within_17_overs_rule": "drinks break taken instead, tea extended to end of innings"
+        },
+        {
+          "type": "Drinks",
+          "timing": "fixed",
+          "times": ["14:03", "16:28"],
+          "duration_minutes": 3,
+          "advance_alert_minutes": 5,
+          "captains_may_forgo": true
+        }
+      ]
+    },
+    "day_overrides": {
+      "day_2": {
+        "minimum_play_rule": "Play continues until 2nd innings result achieved AND daily over quota met. Umpires may offer draw in final hour if no result achievable."
+      }
+    }
+  },
+  "over_rate": {
+    "unit": "minutes_per_over",
+    "value": 3.5,
+    "daily_over_quota": 70,
+    "enforcement": {
+      "slow_over_rate_penalty_1st_2nd_grade": {
+        "type": "report_to_committee",
+        "minimum_innings_duration_minutes": 120,
+        "rate_minutes_per_over": 4,
+        "description": "Umpire reports to MWCA Secretary if overs not bowled at 4 min/over rate in innings of 120+ min"
+      }
+    }
+  },
+  "delay_reduction_rules": {
+    "buffer_minutes": 0,
+    "minutes_per_over_lost": 3.5,
+    "applies_per": "day"
+  },
+  "bowling_restrictions": {
+    "max_overs_per_bowler_4th_to_6th_grade": 12,
+    "underage_restrictions_basis": "per_day",
+    "underage_rest_period_minutes": 60,
+    "underage_restrictions": [
+      { "age_group": "Under 19", "max_overs_per_spell": 8, "max_overs_per_day": 20, "rest_period_minutes": 60, "rest_includes_intervals": true },
+      { "age_group": "Under 17", "max_overs_per_spell": 6, "max_overs_per_day": 16, "rest_period_minutes": 60, "rest_includes_intervals": true },
+      { "age_group": "Under 15", "max_overs_per_spell": 5, "max_overs_per_day": 10, "rest_period_minutes": 60, "rest_includes_intervals": true },
+      { "age_group": "Under 14", "max_overs_per_spell": 4, "max_overs_per_day": 8, "rest_period_minutes": 60, "rest_includes_intervals": true }
+    ],
+    "underage_restrictions_semi_final_grand_final": [
+      { "age_group": "Under 19", "max_overs_per_spell": 8, "max_overs_per_day": 24, "rest_period_minutes": 60 },
+      { "age_group": "Under 17", "max_overs_per_spell": 6, "max_overs_per_day": 20, "rest_period_minutes": 60 },
+      { "age_group": "Under 15", "max_overs_per_spell": 5, "max_overs_per_day": 12, "rest_period_minutes": 60 },
+      { "age_group": "Under 14", "max_overs_per_spell": 4, "max_overs_per_day": 10, "rest_period_minutes": 60 }
+    ]
+  },
+  "power_plays": null,
+  "nine_wickets_down_interval_rule": true,
+  "synthetic_pitches_allowed": true
+}

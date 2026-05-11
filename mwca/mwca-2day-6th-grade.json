@@ -1,0 +1,87 @@
+{
+  "name": "MWCA - Two-Day 6th Grade",
+  "version": "2025-26.1",
+  "source": "MWCA Handbook Part 8.1 Playing Conditions 2025/26",
+  "format": "Timed Two-Day",
+  "notes": "6th Grade plays shorter hours (1pm-5pm) with 60 overs/day. Compulsory closure at 50 overs. 14 players with Day 1/Day 2 swaps or specialist batter/bowler nominations.",
+  "innings": {
+    "count": 4,
+    "overs_per_innings": null,
+    "type": "timed",
+    "compulsory_closure": {
+      "enabled": true,
+      "max_overs_per_innings": 50
+    },
+    "follow_on": {
+      "enabled": true,
+      "threshold_runs": 75
+    },
+    "declarations": {
+      "permitted": true,
+      "constraint": null
+    },
+    "change_of_innings": {
+      "duration_minutes": 10,
+      "overs_lost": 3,
+      "waived_during_interval": false
+    }
+  },
+  "schedule": {
+    "days": 2,
+    "default_daily_schedule": {
+      "start_time": "13:00",
+      "close_of_play": "17:00",
+      "extra_time_minutes": 0,
+      "sessions": [
+        { "label": "Session 1", "start": "13:00", "end": "13:56", "overs": 16 },
+        { "label": "Drinks", "start": "13:56", "end": "13:59", "duration_minutes": 3 },
+        { "label": "Session 2", "start": "13:59", "end": "14:50", "overs": 14 },
+        { "label": "Tea", "start": "14:50", "end": "15:10", "duration_minutes": 20 },
+        { "label": "Session 3", "start": "15:10", "end": "16:06", "overs": 16 },
+        { "label": "Drinks", "start": "16:06", "end": "16:09", "duration_minutes": 3 },
+        { "label": "Session 4", "start": "16:09", "end": "17:00", "overs": 14 }
+      ],
+      "intervals": [
+        {
+          "type": "Tea",
+          "time": "14:50",
+          "duration_minutes": 20,
+          "advance_alert_minutes": 3,
+          "nine_wickets_down_postpone_minutes": 30,
+          "captains_may_forgo": true
+        },
+        {
+          "type": "Drinks",
+          "timing": "fixed",
+          "times": ["13:56", "16:06"],
+          "duration_minutes": 3,
+          "advance_alert_minutes": 5,
+          "captains_may_forgo": true
+        }
+      ]
+    }
+  },
+  "over_rate": {
+    "unit": "minutes_per_over",
+    "value": 3.5,
+    "daily_over_quota": 60
+  },
+  "delay_reduction_rules": {
+    "buffer_minutes": 0,
+    "minutes_per_over_lost": 3.5,
+    "applies_per": "day"
+  },
+  "bowling_restrictions": {
+    "max_overs_per_bowler": 12,
+    "underage_restrictions_basis": "per_day",
+    "underage_restrictions": [
+      { "age_group": "Under 19", "max_overs_per_spell": 8, "max_overs_per_day": 20, "rest_period_minutes": 60 },
+      { "age_group": "Under 17", "max_overs_per_spell": 6, "max_overs_per_day": 16, "rest_period_minutes": 60 },
+      { "age_group": "Under 15", "max_overs_per_spell": 5, "max_overs_per_day": 10, "rest_period_minutes": 60 },
+      { "age_group": "Under 14", "max_overs_per_spell": 4, "max_overs_per_day": 8, "rest_period_minutes": 60 }
+    ]
+  },
+  "power_plays": null,
+  "nine_wickets_down_interval_rule": true,
+  "synthetic_pitches_allowed": true
+}

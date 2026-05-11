@@ -1,0 +1,103 @@
+{
+  "name": "MWCA - One-Day 1st to 5th Grade",
+  "version": "2025-26.1",
+  "source": "MWCA Handbook Part 8.2 Playing Conditions 2025/26",
+  "format": "Limited-Overs 35",
+  "notes": "35 overs per side. No DLS - uses simple run rate for interrupted matches. Min 20 overs for result. SORP (5 runs/over) applies in 1st/2nd grade only with official umpire. No DST shift explicitly mentioned but non-DST times are 30 min earlier.",
+  "innings": {
+    "count": 2,
+    "overs_per_innings": 35,
+    "change_of_innings": {
+      "type": "Tea",
+      "duration_minutes": 20,
+      "duration_reduction": {
+        "if_first_innings_not_complete_by": "15:20",
+        "reduce_by_time_after": true,
+        "minimum_minutes": 10
+      },
+      "overs_lost": 0,
+      "waived_during_interval": false
+    }
+  },
+  "schedule": {
+    "start_time": "13:00",
+    "close_of_play": "17:30",
+    "non_dst_time_shift_minutes": -30,
+    "sessions": [
+      { "label": "First Innings", "start": "13:00", "end": "15:05" },
+      { "label": "Tea", "start": "15:05", "end": "15:25" },
+      { "label": "Second Innings", "start": "15:25", "end": "17:30" }
+    ],
+    "abandonment_cutoffs": {
+      "first_innings_start": "15:30"
+    },
+    "intervals": [
+      {
+        "type": "Drinks",
+        "timing": "fielding_captain_choice",
+        "earliest_over": 15,
+        "latest_over": 20,
+        "max_per_innings": 1,
+        "duration_minutes": 3,
+        "advance_alert_minutes": 5,
+        "captains_may_forgo": true
+      }
+    ]
+  },
+  "over_rate": {
+    "unit": "minutes_per_over",
+    "value": 3.5,
+    "enforcement": {
+      "slow_over_rate_penalty_1st_2nd_grade": {
+        "type": "run_penalty",
+        "runs_per_over_short": 5,
+        "minimum_overs_for_penalty": 20,
+        "description": "5 runs per over short added to batting side total. Applied by official umpire only."
+      }
+    }
+  },
+  "bowling_restrictions": {
+    "max_overs_per_bowler": {
+      "default": 7,
+      "formula": "floor(total_overs / 5)"
+    },
+    "underage_restrictions_basis": "per_day",
+    "underage_restrictions": [
+      { "age_group": "Under 19", "max_overs_per_spell": 8, "max_overs_per_day": 20, "rest_period_minutes": 60 },
+      { "age_group": "Under 17", "max_overs_per_spell": 6, "max_overs_per_day": 16, "rest_period_minutes": 60 },
+      { "age_group": "Under 15", "max_overs_per_spell": 5, "max_overs_per_day": 10, "rest_period_minutes": 60 },
+      { "age_group": "Under 14", "max_overs_per_spell": 4, "max_overs_per_day": 8, "rest_period_minutes": 60 }
+    ],
+    "underage_restrictions_semi_final_grand_final": [
+      { "age_group": "Under 19", "max_overs_per_spell": 8, "max_overs_per_day": 24, "rest_period_minutes": 60 },
+      { "age_group": "Under 17", "max_overs_per_spell": 6, "max_overs_per_day": 20, "rest_period_minutes": 60 },
+      { "age_group": "Under 15", "max_overs_per_spell": 5, "max_overs_per_day": 12, "rest_period_minutes": 60 },
+      { "age_group": "Under 14", "max_overs_per_spell": 4, "max_overs_per_day": 10, "rest_period_minutes": 60 }
+    ]
+  },
+  "power_plays": {
+    "fixed": [],
+    "floating": [],
+    "non_restriction_max_fielders_outside": 5,
+    "notes": "Max 5 fielders outside 30-yard circle for entire innings. No powerplay phases."
+  },
+  "delay_reduction_rules": {
+    "before_or_during_first_innings": {
+      "buffer_minutes": 0,
+      "minutes_per_over_lost": 7,
+      "applies_to": "both_innings"
+    },
+    "after_first_innings": {
+      "buffer_minutes": 0,
+      "minutes_per_over_lost": 3.5,
+      "applies_to": "second_innings_only"
+    },
+    "minimum_overs_for_result": 20,
+    "result_method": "simple_run_rate",
+    "dls_method": null
+  },
+  "super_over": {
+    "enabled": false
+  },
+  "synthetic_pitches_allowed": true
+}

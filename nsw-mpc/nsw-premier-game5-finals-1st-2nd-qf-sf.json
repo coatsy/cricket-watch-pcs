@@ -1,0 +1,128 @@
+{
+  "name": "NSW Premier Cricket - 1st/2nd Grade Finals QF & SF",
+  "version": "2025-26.1",
+  "source": "SCA Game 5 Playing Conditions 2025/26",
+  "format": "Timed Two-Day Finals",
+  "notes": "Qualifying Finals and Semi-Finals for 1st and 2nd Grade only. Different over rate (3.89 min/over), start time (09:45), and Day 2 make-up table (Table 5, max 16 overs) from other Finals Series matches.",
+  "innings": {
+    "count": 4,
+    "overs_per_innings": null,
+    "type": "timed",
+    "follow_on": {
+      "enabled": true,
+      "threshold_runs": 150
+    },
+    "declarations": {
+      "permitted": true,
+      "constraint": "may_not_declare_before_avoiding_follow_on"
+    },
+    "compulsory_closure": {
+      "enabled": true,
+      "max_overs_first_innings": 135,
+      "not_reduced_for_time_lost": true,
+      "not_applicable_if_captain_bowled_first": true
+    },
+    "change_of_innings": {
+      "duration_minutes": 10,
+      "overs_lost": 2,
+      "waived_during_interval": true,
+      "waived_during_weather_break": true
+    }
+  },
+  "schedule": {
+    "days": 2,
+    "non_dst_time_shift_minutes": -60,
+    "default_daily_schedule": {
+      "start_time": "09:45",
+      "close_of_play": "17:30",
+      "extra_time_minutes": 0,
+      "hard_cutoff": null,
+      "intervals": [
+        {
+          "type": "Lunch",
+          "time": "12:15",
+          "duration_minutes": 40,
+          "advance_alert_minutes": 3,
+          "not_taken_if_no_play_before": "12:15",
+          "delayed_start_shift": {
+            "shift_per_delay_minutes": 30,
+            "max_shift_minutes": 90
+          }
+        },
+        {
+          "type": "Tea",
+          "time": "15:10",
+          "duration_minutes": 20,
+          "advance_alert_minutes": 3,
+          "not_taken_if_start_after": "15:10",
+          "midpoint_rule": "if start between 12:15 and 15:10, tea at midpoint of start to rescheduled finish",
+          "delayed_start_shift": {
+            "shift_per_delay_minutes": 30,
+            "max_shift_minutes": 90
+          },
+          "captains_may_not_forgo": true
+        },
+        {
+          "type": "Drinks",
+          "timing": "at_umpires_discretion",
+          "duration_minutes": 4,
+          "advance_alert_minutes": 5
+        }
+      ]
+    }
+  },
+  "over_rate": {
+    "unit": "minutes_per_over",
+    "value": 3.89,
+    "daily_over_quota": 104,
+    "enforcement": {
+      "over_rate_table_reference": "Table 2A",
+      "minimum_innings_duration_for_penalty_minutes": 210,
+      "penalty": {
+        "per_over_short": 0.1,
+        "credit_overs": 9,
+        "description": "0.1 points deducted per over short after 10 cumulative overs short for season"
+      },
+      "allowances": {
+        "per_wicket_minutes": 2,
+        "per_drinks_interval_minutes": 4
+      }
+    }
+  },
+  "delay_reduction_rules": {
+    "buffer_minutes": 30,
+    "minutes_per_over_lost": 3.89,
+    "applies_per": "day",
+    "extra_time_minutes": 30,
+    "day_2_make_up_max_overs": 16,
+    "day_2_schedule_adjustment_table": [
+      { "overs_lost": 1, "start": "09:41", "lunch": "12:15", "lunch_end": "12:55", "tea": "15:10", "tea_end": "15:30", "close": "17:30" },
+      { "overs_lost": 2, "start": "09:37", "lunch": "12:15", "lunch_end": "12:55", "tea": "15:10", "tea_end": "15:30", "close": "17:30" },
+      { "overs_lost": 3, "start": "09:34", "lunch": "12:15", "lunch_end": "12:55", "tea": "15:10", "tea_end": "15:30", "close": "17:30" },
+      { "overs_lost": 4, "start": "09:30", "lunch": "12:15", "lunch_end": "12:55", "tea": "15:10", "tea_end": "15:30", "close": "17:30" },
+      { "overs_lost": 5, "start": "09:26", "lunch": "12:15", "lunch_end": "12:55", "tea": "15:10", "tea_end": "15:30", "close": "17:30" },
+      { "overs_lost": 6, "start": "09:23", "lunch": "12:15", "lunch_end": "12:55", "tea": "15:10", "tea_end": "15:30", "close": "17:30" },
+      { "overs_lost": 7, "start": "09:19", "lunch": "12:15", "lunch_end": "12:55", "tea": "15:10", "tea_end": "15:30", "close": "17:30" },
+      { "overs_lost": 8, "start": "09:15", "lunch": "12:15", "lunch_end": "12:55", "tea": "15:10", "tea_end": "15:30", "close": "17:30" },
+      { "overs_lost": 9, "start": "09:15", "lunch": "12:15", "lunch_end": "12:55", "tea": "15:10", "tea_end": "15:30", "close": "17:34" },
+      { "overs_lost": 10, "start": "09:15", "lunch": "12:15", "lunch_end": "12:55", "tea": "15:10", "tea_end": "15:30", "close": "17:38" },
+      { "overs_lost": 11, "start": "09:15", "lunch": "12:15", "lunch_end": "12:55", "tea": "15:10", "tea_end": "15:30", "close": "17:41" },
+      { "overs_lost": 12, "start": "09:15", "lunch": "12:15", "lunch_end": "12:55", "tea": "15:10", "tea_end": "15:30", "close": "17:45" },
+      { "overs_lost": 13, "start": "09:15", "lunch": "12:15", "lunch_end": "12:55", "tea": "15:10", "tea_end": "15:30", "close": "17:49" },
+      { "overs_lost": 14, "start": "09:15", "lunch": "12:15", "lunch_end": "12:55", "tea": "15:10", "tea_end": "15:30", "close": "17:53" },
+      { "overs_lost": 15, "start": "09:15", "lunch": "12:15", "lunch_end": "12:55", "tea": "15:10", "tea_end": "15:30", "close": "17:56" },
+      { "overs_lost": 16, "start": "09:15", "lunch": "12:15", "lunch_end": "12:55", "tea": "15:10", "tea_end": "15:30", "close": "18:00" }
+    ]
+  },
+  "bowling_restrictions": {
+    "underage_restrictions_basis": "per_day",
+    "underage_restrictions": [
+      { "age_group": "Under 19", "max_overs_per_spell": 8, "max_overs_per_day": 24, "rest_period_minutes": 30, "rest_includes_intervals": true, "cross_innings_spell_continues": true },
+      { "age_group": "Under 17", "max_overs_per_spell": 6, "max_overs_per_day": 20, "rest_period_minutes": 30, "rest_includes_intervals": true, "cross_innings_spell_continues": true },
+      { "age_group": "Under 15", "max_overs_per_spell": 5, "max_overs_per_day": 12, "rest_period_minutes": 30, "rest_includes_intervals": true, "cross_innings_spell_continues": true },
+      { "age_group": "Under 14", "max_overs_per_spell": 4, "max_overs_per_day": 10, "rest_period_minutes": 30, "rest_includes_intervals": true, "cross_innings_spell_continues": true }
+    ]
+  },
+  "power_plays": null,
+  "nine_wickets_down_interval_rule": true
+}

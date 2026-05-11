@@ -1,0 +1,99 @@
+{
+  "name": "MWCA - T20 3rd Grade and Below (Plate)",
+  "version": "2025-26.1",
+  "source": "MWCA Handbook Part 8.3 Playing Conditions 2025/26",
+  "format": "T20",
+  "notes": "Lower grades (Plate). Single-end bowling: first 10 overs from one end, second 10 from the other. Drinks after 10 overs (2 min). No over rate penalty. No leg-side wide strict interpretation.",
+  "innings": {
+    "count": 2,
+    "overs_per_innings": 20,
+    "change_of_innings": {
+      "duration_minutes": 10,
+      "overs_lost": 0
+    }
+  },
+  "schedule": {
+    "start_time_options": ["variable_per_draw"],
+    "abandonment_cutoffs": {
+      "no_play_within_minutes_of_start": 90
+    },
+    "intervals": [
+      {
+        "type": "Drinks",
+        "timing": "fixed_over",
+        "taken_after_over": 10,
+        "duration_minutes": 2,
+        "captains_may_forgo": true
+      }
+    ]
+  },
+  "over_rate": {
+    "unit": "minutes_per_over",
+    "value": 4,
+    "enforcement": null
+  },
+  "bowling_restrictions": {
+    "max_overs_per_bowler": {
+      "default": 4,
+      "reduced_overs_formula": "floor(total_overs / 5) + (1 if total_overs % 5 != 0 else 0)"
+    }
+  },
+  "bowling_end_phases": [
+    {
+      "name": "First Half",
+      "start_over": 1,
+      "end_over": 10,
+      "bowling_end": "end_1"
+    },
+    {
+      "name": "Second Half",
+      "start_over": 11,
+      "end_over": 20,
+      "bowling_end": "end_2"
+    }
+  ],
+  "power_plays": {
+    "fixed": [
+      {
+        "name": "Powerplay",
+        "start_over": 1,
+        "end_over": 6,
+        "max_fielders_outside": 2
+      }
+    ],
+    "floating": [],
+    "non_restriction_max_fielders_outside": 5,
+    "reduced_overs_table": [
+      { "total_overs": 20, "pp_overs": 6 },
+      { "total_overs": 19, "pp_overs": 5 },
+      { "total_overs": 18, "pp_overs": 5 },
+      { "total_overs": 17, "pp_overs": 5 },
+      { "total_overs": 16, "pp_overs": 4 },
+      { "total_overs": 15, "pp_overs": 4 },
+      { "total_overs": 14, "pp_overs": 4 },
+      { "total_overs": 13, "pp_overs": 3 },
+      { "total_overs": 12, "pp_overs": 3 },
+      { "total_overs": 11, "pp_overs": 3 },
+      { "total_overs": 10, "pp_overs": 3 }
+    ]
+  },
+  "delay_reduction_rules": {
+    "buffer_minutes": 0,
+    "minutes_per_over_lost": 7,
+    "applies_to": "both_innings",
+    "minimum_overs_for_result": 10,
+    "result_method": "simple_run_rate",
+    "dls_method": null
+  },
+  "super_over": {
+    "enabled": true,
+    "max_batters": 3,
+    "max_wickets": 2,
+    "fielding_restriction": "same_as_last_over",
+    "toss_for_batting_order": true,
+    "subsequent_super_overs": false,
+    "tie_result_if_super_over_tied": true
+  },
+  "free_hit_from_any_no_ball": true,
+  "synthetic_pitches_allowed": true
+}

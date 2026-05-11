@@ -1,0 +1,70 @@
+{
+  "name": "MWCA - One-Day 6th Grade",
+  "version": "2025-26.1",
+  "source": "MWCA Handbook Part 8.2 Playing Conditions 2025/26",
+  "format": "Limited-Overs 30",
+  "notes": "30 overs per side. Shorter playing hours (1pm-5pm). Max overs per bowler is 1/6 of allotted. No DLS - simple run rate. No SORP.",
+  "innings": {
+    "count": 2,
+    "overs_per_innings": 30,
+    "change_of_innings": {
+      "type": "Tea",
+      "duration_minutes": 20,
+      "overs_lost": 0
+    }
+  },
+  "schedule": {
+    "start_time": "13:00",
+    "close_of_play": "17:00",
+    "non_dst_time_shift_minutes": -30,
+    "intervals": [
+      {
+        "type": "Drinks",
+        "timing": "fielding_captain_choice",
+        "earliest_over": 15,
+        "latest_over": 20,
+        "max_per_innings": 1,
+        "duration_minutes": 3,
+        "captains_may_forgo": true
+      }
+    ]
+  },
+  "over_rate": {
+    "unit": "minutes_per_over",
+    "value": 3.5
+  },
+  "bowling_restrictions": {
+    "max_overs_per_bowler": {
+      "default": 5,
+      "formula": "floor(total_overs / 6)"
+    },
+    "underage_restrictions_basis": "per_day",
+    "underage_restrictions": [
+      { "age_group": "Under 19", "max_overs_per_spell": 8, "max_overs_per_day": 20, "rest_period_minutes": 60 },
+      { "age_group": "Under 17", "max_overs_per_spell": 6, "max_overs_per_day": 16, "rest_period_minutes": 60 },
+      { "age_group": "Under 15", "max_overs_per_spell": 5, "max_overs_per_day": 10, "rest_period_minutes": 60 },
+      { "age_group": "Under 14", "max_overs_per_spell": 4, "max_overs_per_day": 8, "rest_period_minutes": 60 }
+    ]
+  },
+  "power_plays": {
+    "fixed": [],
+    "non_restriction_max_fielders_outside": 5,
+    "notes": "Max 5 outside circle for entire innings"
+  },
+  "delay_reduction_rules": {
+    "before_or_during_first_innings": {
+      "buffer_minutes": 0,
+      "minutes_per_over_lost": 7,
+      "applies_to": "both_innings"
+    },
+    "after_first_innings": {
+      "buffer_minutes": 0,
+      "minutes_per_over_lost": 3.5,
+      "applies_to": "second_innings_only"
+    },
+    "minimum_overs_for_result": 20,
+    "result_method": "simple_run_rate",
+    "dls_method": null
+  },
+  "synthetic_pitches_allowed": true
+}

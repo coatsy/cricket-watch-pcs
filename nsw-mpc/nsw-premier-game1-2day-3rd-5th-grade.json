@@ -1,0 +1,129 @@
+{
+  "name": "NSW Premier Cricket - 3rd to 5th Grade Two-Day",
+  "version": "2025-26.1",
+  "source": "SCA Game 1 Playing Conditions 2025/26",
+  "format": "Timed Two-Day",
+  "innings": {
+    "count": 4,
+    "overs_per_innings": null,
+    "type": "timed",
+    "follow_on": {
+      "enabled": true,
+      "threshold_runs": 150
+    },
+    "declarations": {
+      "permitted": true,
+      "constraint": "may_not_declare_before_avoiding_follow_on"
+    },
+    "change_of_innings": {
+      "duration_minutes": 10,
+      "overs_lost": 2,
+      "waived_during_interval": true,
+      "waived_during_weather_break": true
+    }
+  },
+  "schedule": {
+    "days": 2,
+    "non_dst_time_shift_minutes": -60,
+    "default_daily_schedule": {
+      "start_time": "11:00",
+      "close_of_play": "16:30",
+      "extra_time_minutes": 0,
+      "hard_cutoff": null,
+      "intervals": [
+        {
+          "type": "Tea",
+          "time": "13:40",
+          "duration_minutes": 30,
+          "advance_alert_minutes": 3,
+          "not_taken_if_start_after": "13:40",
+          "midpoint_rule": "if start between 11:45 and 13:40, tea at midpoint of start to rescheduled finish"
+        },
+        {
+          "type": "Drinks",
+          "timing": "at_umpires_discretion",
+          "duration_minutes": 4,
+          "advance_alert_minutes": 5
+        }
+      ]
+    },
+    "day_overrides": {
+      "day_1": {
+        "hard_cutoff": "17:00",
+        "notes": "Play shall not continue after completion of over in progress at 17:00"
+      },
+      "day_2": {
+        "minimum_play_until": "14:10",
+        "minimum_play_exception": "outright_result",
+        "early_start_rules": {
+          "trigger": "fewer_than_41_overs_on_day_1",
+          "start_time": "09:30",
+          "format_change": "Game 2 (One-Day) rules apply"
+        }
+      }
+    }
+  },
+  "over_rate": {
+    "unit": "minutes_per_over",
+    "value": 3.75,
+    "daily_over_quota": 80,
+    "enforcement": {
+      "over_rate_table_reference": "Table 1A",
+      "minimum_innings_duration_for_penalty_minutes": 210,
+      "penalty": {
+        "per_over_short": 0.1,
+        "credit_overs": 9,
+        "description": "0.1 points deducted per over short after 10 cumulative overs short for season"
+      },
+      "allowances": {
+        "per_wicket_minutes": 2,
+        "per_drinks_interval_minutes": 4
+      }
+    }
+  },
+  "delay_reduction_rules": {
+    "buffer_minutes": 30,
+    "minutes_per_over_lost": 3.75,
+    "applies_per": "day",
+    "extra_time_minutes": 0
+  },
+  "bowling_restrictions": {
+    "underage_restrictions_basis": "per_day",
+    "underage_restrictions": [
+      {
+        "age_group": "Under 19",
+        "max_overs_per_spell": 8,
+        "max_overs_per_day": 20,
+        "rest_period_minutes": 30,
+        "rest_includes_intervals": true,
+        "cross_innings_spell_continues": true
+      },
+      {
+        "age_group": "Under 17",
+        "max_overs_per_spell": 6,
+        "max_overs_per_day": 16,
+        "rest_period_minutes": 30,
+        "rest_includes_intervals": true,
+        "cross_innings_spell_continues": true
+      },
+      {
+        "age_group": "Under 15",
+        "max_overs_per_spell": 5,
+        "max_overs_per_day": 10,
+        "rest_period_minutes": 30,
+        "rest_includes_intervals": true,
+        "cross_innings_spell_continues": true
+      },
+      {
+        "age_group": "Under 14",
+        "max_overs_per_spell": 4,
+        "max_overs_per_day": 8,
+        "rest_period_minutes": 30,
+        "rest_includes_intervals": true,
+        "cross_innings_spell_continues": true
+      }
+    ]
+  },
+  "power_plays": null,
+  "nine_wickets_down_interval_rule": true
+}

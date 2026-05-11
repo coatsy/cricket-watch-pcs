@@ -1,0 +1,95 @@
+{
+  "name": "MWCA - T20 1st/2nd Grade",
+  "version": "2025-26.1",
+  "source": "MWCA Handbook Part 8.3 Playing Conditions 2025/26",
+  "format": "T20",
+  "notes": "Start time varies per draw. Drinks only if temperature exceeds threshold (34°C grass, 30°C synthetic). No underage bowling restrictions beyond Laws of Cricket. Free hit from any no ball.",
+  "innings": {
+    "count": 2,
+    "overs_per_innings": 20,
+    "change_of_innings": {
+      "duration_minutes": 10,
+      "overs_lost": 0
+    }
+  },
+  "schedule": {
+    "start_time_options": ["variable_per_draw"],
+    "abandonment_cutoffs": {
+      "no_play_within_minutes_of_start": 90
+    },
+    "intervals": [
+      {
+        "type": "Drinks",
+        "timing": "temperature_dependent",
+        "temperature_threshold_grass_celsius": 34,
+        "temperature_threshold_synthetic_celsius": 30,
+        "duration_minutes": 5,
+        "taken_after_over": null,
+        "notes": "Only taken if ambient temperature exceeds threshold. Umpire/captains determine at start."
+      }
+    ]
+  },
+  "over_rate": {
+    "unit": "minutes_per_over",
+    "value": 4,
+    "enforcement": {
+      "innings_time_limit_minutes": 80,
+      "penalty": {
+        "type": "fielding_restriction",
+        "additional_fielders_inside_circle": 1,
+        "description": "One additional fielder must be inside circle for every over commencing after 80 minutes"
+      }
+    }
+  },
+  "bowling_restrictions": {
+    "max_overs_per_bowler": {
+      "default": 4,
+      "reduced_overs_formula": "floor(total_overs / 5) + (1 if total_overs % 5 != 0 else 0)"
+    }
+  },
+  "power_plays": {
+    "fixed": [
+      {
+        "name": "Powerplay",
+        "start_over": 1,
+        "end_over": 6,
+        "max_fielders_outside": 2
+      }
+    ],
+    "floating": [],
+    "non_restriction_max_fielders_outside": 5,
+    "reduced_overs_table": [
+      { "total_overs": 20, "pp_overs": 6 },
+      { "total_overs": 19, "pp_overs": 5 },
+      { "total_overs": 18, "pp_overs": 5 },
+      { "total_overs": 17, "pp_overs": 5 },
+      { "total_overs": 16, "pp_overs": 4 },
+      { "total_overs": 15, "pp_overs": 4 },
+      { "total_overs": 14, "pp_overs": 4 },
+      { "total_overs": 13, "pp_overs": 3 },
+      { "total_overs": 12, "pp_overs": 3 },
+      { "total_overs": 11, "pp_overs": 3 },
+      { "total_overs": 10, "pp_overs": 3 }
+    ]
+  },
+  "delay_reduction_rules": {
+    "buffer_minutes": 0,
+    "minutes_per_over_lost": 7,
+    "applies_to": "both_innings",
+    "minimum_overs_for_result": 10,
+    "result_method": "simple_run_rate",
+    "dls_method": null
+  },
+  "super_over": {
+    "enabled": true,
+    "max_batters": 3,
+    "max_wickets": 2,
+    "fielding_restriction": "same_as_last_over",
+    "toss_for_batting_order": true,
+    "subsequent_super_overs": false,
+    "tie_result_if_super_over_tied": true
+  },
+  "leg_side_wide_strict_interpretation": true,
+  "free_hit_from_any_no_ball": true,
+  "synthetic_pitches_allowed": true
+}

@@ -1,0 +1,185 @@
+{
+  "name": "NSW Premier Cricket - 3rd to 5th Grade Limited-Overs",
+  "version": "2025-26.1",
+  "source": "SCA Game 3 Playing Conditions 2025/26",
+  "format": "Limited-Overs 50",
+  "innings": {
+    "count": 2,
+    "overs_per_innings": 50,
+    "change_of_innings": {
+      "type": "lunch",
+      "duration_minutes": {
+        "default": 45,
+        "conditional_reductions": [
+          {
+            "condition": "first_innings_overs_bowled < 25",
+            "duration_minutes": 20
+          },
+          {
+            "condition": "actual_playing_time_lost_minutes >= 76 AND actual_playing_time_lost_minutes <= 90",
+            "duration_minutes": 30
+          },
+          {
+            "condition": "actual_playing_time_lost_minutes >= 91 AND actual_playing_time_lost_minutes <= 119",
+            "duration_minutes": 20
+          },
+          {
+            "condition": "actual_playing_time_lost_minutes >= 120",
+            "duration_minutes": 10
+          }
+        ],
+        "minimum_minutes": 10
+      },
+      "overs_lost": 0,
+      "waived_during_interval": false
+    }
+  },
+  "schedule": {
+    "start_time": "10:00",
+    "close_of_play": "17:45",
+    "non_dst_time_shift_minutes": -30,
+    "total_playing_time_minutes": 420,
+    "abandonment_cutoffs": {
+      "first_innings_start": "15:59",
+      "second_innings_start": "17:12",
+      "non_dst_first_innings_start": "15:29",
+      "non_dst_second_innings_start": "16:42"
+    },
+    "intervals": [
+      {
+        "type": "Drinks",
+        "timing": "relative",
+        "minimum_interval_minutes": 70,
+        "max_per_innings": 2,
+        "duration_minutes": 4,
+        "advance_alert_minutes": 5
+      }
+    ]
+  },
+  "over_rate": {
+    "unit": "minutes_per_over",
+    "value": 4.2,
+    "enforcement": {
+      "innings_time_limit_minutes": 210,
+      "penalty": {
+        "type": "standard_over_rate_penalty",
+        "per_over_short": 0.1,
+        "credit_overs": 9,
+        "description": "0.1 points deducted per over short after 10 cumulative overs short for season"
+      }
+    }
+  },
+  "bowling_restrictions": {
+    "max_overs_per_bowler": {
+      "default": 10,
+      "reduced_overs_formula": "floor(total_overs / 5) + (1 if total_overs % 5 != 0 else 0)"
+    },
+    "underage_restrictions": [
+      {
+        "age_group": "Under 19",
+        "max_overs_per_spell": 8,
+        "max_overs_per_innings": 10,
+        "rest_period_minutes": 30,
+        "rest_includes_intervals": true
+      },
+      {
+        "age_group": "Under 17",
+        "max_overs_per_spell": 6,
+        "max_overs_per_innings": 10,
+        "rest_period_minutes": 30,
+        "rest_includes_intervals": true
+      },
+      {
+        "age_group": "Under 15",
+        "max_overs_per_spell": 5,
+        "max_overs_per_innings": 10,
+        "rest_period_minutes": 30,
+        "rest_includes_intervals": true
+      },
+      {
+        "age_group": "Under 14",
+        "max_overs_per_spell": 4,
+        "max_overs_per_innings": 8,
+        "rest_period_minutes": 30,
+        "rest_includes_intervals": true
+      }
+    ]
+  },
+  "power_plays": {
+    "fixed": [
+      {
+        "name": "Powerplay 1",
+        "start_over": 1,
+        "end_over": 10,
+        "max_fielders_outside": 2
+      },
+      {
+        "name": "Powerplay 2",
+        "start_over": 11,
+        "end_over": 40,
+        "max_fielders_outside": 4
+      },
+      {
+        "name": "Powerplay 3",
+        "start_over": 41,
+        "end_over": 50,
+        "max_fielders_outside": 5
+      }
+    ],
+    "floating": [],
+    "non_restriction_max_fielders_outside": 5,
+    "reduced_overs_table": [
+      { "total_overs": 50, "pp1": 10, "pp2": 30, "pp3": 10 },
+      { "total_overs": 49, "pp1": 10, "pp2": 29, "pp3": 10 },
+      { "total_overs": 48, "pp1": 10, "pp2": 29, "pp3": 9 },
+      { "total_overs": 47, "pp1": 10, "pp2": 28, "pp3": 9 },
+      { "total_overs": 46, "pp1": 9, "pp2": 28, "pp3": 9 },
+      { "total_overs": 45, "pp1": 9, "pp2": 27, "pp3": 9 },
+      { "total_overs": 44, "pp1": 9, "pp2": 27, "pp3": 8 },
+      { "total_overs": 43, "pp1": 9, "pp2": 26, "pp3": 8 },
+      { "total_overs": 42, "pp1": 9, "pp2": 25, "pp3": 8 },
+      { "total_overs": 41, "pp1": 8, "pp2": 25, "pp3": 8 },
+      { "total_overs": 40, "pp1": 8, "pp2": 24, "pp3": 8 },
+      { "total_overs": 39, "pp1": 8, "pp2": 23, "pp3": 8 },
+      { "total_overs": 38, "pp1": 8, "pp2": 23, "pp3": 7 },
+      { "total_overs": 37, "pp1": 8, "pp2": 22, "pp3": 7 },
+      { "total_overs": 36, "pp1": 7, "pp2": 22, "pp3": 7 },
+      { "total_overs": 35, "pp1": 7, "pp2": 21, "pp3": 7 },
+      { "total_overs": 34, "pp1": 7, "pp2": 20, "pp3": 7 },
+      { "total_overs": 33, "pp1": 7, "pp2": 20, "pp3": 6 },
+      { "total_overs": 32, "pp1": 7, "pp2": 19, "pp3": 6 },
+      { "total_overs": 31, "pp1": 6, "pp2": 19, "pp3": 6 },
+      { "total_overs": 30, "pp1": 6, "pp2": 18, "pp3": 6 },
+      { "total_overs": 29, "pp1": 6, "pp2": 17, "pp3": 6 },
+      { "total_overs": 28, "pp1": 6, "pp2": 17, "pp3": 5 },
+      { "total_overs": 27, "pp1": 6, "pp2": 16, "pp3": 5 },
+      { "total_overs": 26, "pp1": 5, "pp2": 16, "pp3": 5 },
+      { "total_overs": 25, "pp1": 5, "pp2": 15, "pp3": 5 },
+      { "total_overs": 24, "pp1": 5, "pp2": 14, "pp3": 5 },
+      { "total_overs": 23, "pp1": 5, "pp2": 14, "pp3": 4 },
+      { "total_overs": 22, "pp1": 5, "pp2": 13, "pp3": 4 },
+      { "total_overs": 21, "pp1": 4, "pp2": 13, "pp3": 4 },
+      { "total_overs": 20, "pp1": 4, "pp2": 12, "pp3": 4 },
+      { "total_overs": 19, "pp1": 4, "pp2": 11, "pp3": 4 },
+      { "total_overs": 18, "pp1": 4, "pp2": 11, "pp3": 3 },
+      { "total_overs": 17, "pp1": 4, "pp2": 10, "pp3": 3 },
+      { "total_overs": 16, "pp1": 3, "pp2": 10, "pp3": 3 },
+      { "total_overs": 15, "pp1": 3, "pp2": 9, "pp3": 3 }
+    ]
+  },
+  "delay_reduction_rules": {
+    "before_or_during_first_innings": {
+      "buffer_minutes": 30,
+      "minutes_per_over_lost": 8.4,
+      "applies_to": "both_innings"
+    },
+    "after_first_innings": {
+      "buffer_minutes": 30,
+      "minutes_per_over_lost": 4.2,
+      "applies_to": "second_innings_only"
+    },
+    "extra_time_minutes": 30,
+    "minimum_overs_for_result": 15,
+    "dls_method": "PlayCricket_or_PlayHQ_app"
+  }
+}
