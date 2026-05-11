@@ -1,4 +1,4 @@
-# NSW Mens Premier Cricket
+# NSW Premier Cricket
 
 ## Disclaimer
 
