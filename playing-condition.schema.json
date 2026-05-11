@@ -1,0 +1,815 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/coatsy/cricket-watch/playing-condition.schema.json",
+  "title": "Cricket Watch Playing Condition",
+  "description": "Schema for a cricket playing condition configuration file. Defines match format, schedule, intervals, bowling restrictions, power plays, delay reduction rules, and other match parameters.",
+  "type": "object",
+  "required": ["name", "version", "source", "format", "innings", "schedule"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Human-readable name for this playing condition (e.g., 'NSW Premier Cricket - Kingsgrove Sports T20 Cup')"
+    },
+    "version": {
+      "type": "string",
+      "description": "Version identifier (e.g., '2025-26.1')"
+    },
+    "source": {
+      "type": "string",
+      "description": "Source document this playing condition was derived from"
+    },
+    "format": {
+      "type": "string",
+      "description": "Match format identifier",
+      "examples": ["T20", "Limited-Overs 50", "Limited-Overs 35", "Limited-Overs 30", "Timed Two-Day", "Timed Three-Day Final", "Timed One-Day (Day 2 of Game 1)"]
+    },
+    "notes": {
+      "type": "string",
+      "description": "Free-text notes about this playing condition"
+    },
+    "synthetic_pitches_allowed": {
+      "type": "boolean",
+      "description": "Whether matches may be played on synthetic pitches"
+    },
+    "nine_wickets_down_interval_rule": {
+      "type": "boolean",
+      "description": "Whether an interval can be delayed when 9 wickets are down (Law 11.7)"
+    },
+    "leg_side_wide_strict_interpretation": {
+      "type": "boolean",
+      "description": "Whether a stricter leg-side wide interpretation applies"
+    },
+    "free_hit_from_any_no_ball": {
+      "type": "boolean",
+      "description": "Whether a free hit applies after any no ball (not just foot faults)"
+    },
+    "innings": {
+      "$ref": "#/$defs/innings"
+    },
+    "schedule": {
+      "$ref": "#/$defs/schedule"
+    },
+    "over_rate": {
+      "$ref": "#/$defs/overRate"
+    },
+    "bowling_restrictions": {
+      "$ref": "#/$defs/bowlingRestrictions"
+    },
+    "bowling_end_phases": {
+      "type": "array",
+      "description": "Single-end bowling phases (e.g., first 10 overs from one end, second 10 from the other)",
+      "items": {
+        "$ref": "#/$defs/bowlingEndPhase"
+      }
+    },
+    "power_plays": {
+      "oneOf": [
+        { "type": "null" },
+        { "$ref": "#/$defs/powerPlays" }
+      ],
+      "description": "Power play and fielding restriction definitions. Null if no power plays apply (e.g., timed matches)."
+    },
+    "delay_reduction_rules": {
+      "$ref": "#/$defs/delayReductionRules"
+    },
+    "super_over": {
+      "$ref": "#/$defs/superOver"
+    }
+  },
+  "$defs": {
+    "innings": {
+      "type": "object",
+      "required": ["count", "change_of_innings"],
+      "properties": {
+        "count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4,
+          "description": "Total number of innings in the match (2 for limited-overs, 4 for timed)"
+        },
+        "overs_per_innings": {
+          "type": ["integer", "null"],
+          "minimum": 1,
+          "description": "Maximum overs per innings. Null for timed (unlimited) matches."
+        },
+        "type": {
+          "type": "string",
+          "enum": ["timed", "limited_overs"],
+          "description": "Match type. 'timed' for multi-innings matches with daily over quotas."
+        },
+        "follow_on": {
+          "$ref": "#/$defs/followOn"
+        },
+        "declarations": {
+          "$ref": "#/$defs/declarations"
+        },
+        "compulsory_closure": {
+          "$ref": "#/$defs/compulsoryClosure"
+        },
+        "change_of_innings": {
+          "$ref": "#/$defs/changeOfInnings"
+        }
+      }
+    },
+    "followOn": {
+      "type": "object",
+      "required": ["enabled"],
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "threshold_runs": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Lead in runs required to enforce the follow-on (e.g., 150 or 75)"
+        }
+      }
+    },
+    "declarations": {
+      "type": "object",
+      "required": ["permitted"],
+      "properties": {
+        "permitted": {
+          "type": "boolean"
+        },
+        "constraint": {
+          "type": ["string", "null"],
+          "description": "Constraint on declarations (e.g., 'may_not_declare_before_avoiding_follow_on')"
+        }
+      }
+    },
+    "compulsoryClosure": {
+      "type": "object",
+      "required": ["enabled"],
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "max_overs_first_innings": {
+          "type": "integer",
+          "description": "Maximum overs in the first innings before compulsory closure"
+        },
+        "max_overs_per_innings": {
+          "type": "integer",
+          "description": "Maximum overs in any innings (used when all innings have the same cap)"
+        },
+        "max_overs_first_innings_by_grade": {
+          "type": "object",
+          "description": "Grade-specific compulsory closure limits (e.g., {'1st': 80, '2nd': 75})",
+          "additionalProperties": {
+            "type": "integer"
+          }
+        },
+        "not_reduced_for_time_lost": {
+          "type": "boolean",
+          "description": "If true, the compulsory closure limit is fixed regardless of time lost"
+        },
+        "not_applicable_if_captain_bowled_first": {
+          "type": "boolean",
+          "description": "If true, compulsory closure does not apply when the captain chose to bowl first"
+        }
+      }
+    },
+    "changeOfInnings": {
+      "type": "object",
+      "required": ["overs_lost"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Name of the interval taken at change of innings (e.g., 'lunch', 'Tea')"
+        },
+        "duration_minutes": {
+          "oneOf": [
+            { "type": "number", "minimum": 0 },
+            { "$ref": "#/$defs/conditionalDuration" }
+          ],
+          "description": "Duration of the change-of-innings interval, either fixed or conditional"
+        },
+        "duration_reduction": {
+          "type": "object",
+          "description": "Rules for reducing the interval duration based on time",
+          "properties": {
+            "if_first_innings_not_complete_by": {
+              "type": "string",
+              "pattern": "^\\d{2}:\\d{2}$"
+            },
+            "reduce_by_time_after": {
+              "type": "boolean"
+            },
+            "minimum_minutes": {
+              "type": "number"
+            }
+          }
+        },
+        "overs_lost": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of overs deducted from the daily quota for each change of innings"
+        },
+        "waived_during_interval": {
+          "type": "boolean",
+          "description": "If true, no over deduction when the change occurs during a scheduled interval"
+        },
+        "waived_during_weather_break": {
+          "type": "boolean",
+          "description": "If true, no over deduction when the change occurs during a weather interruption"
+        },
+        "first_change_free": {
+          "type": "boolean",
+          "description": "If true, the first change of innings on the day has no over deduction"
+        },
+        "first_change_free_note": {
+          "type": "string"
+        }
+      }
+    },
+    "conditionalDuration": {
+      "type": "object",
+      "required": ["default"],
+      "properties": {
+        "default": {
+          "type": "number",
+          "description": "Default duration in minutes"
+        },
+        "conditional_reductions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["condition", "duration_minutes"],
+            "properties": {
+              "condition": {
+                "type": "string",
+                "description": "Condition expression (e.g., 'first_innings_overs_bowled < 25')"
+              },
+              "duration_minutes": {
+                "type": "number"
+              },
+              "note": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "minimum_minutes": {
+          "type": "number",
+          "description": "Absolute minimum duration regardless of reductions"
+        }
+      }
+    },
+    "schedule": {
+      "type": "object",
+      "properties": {
+        "start_time": {
+          "type": "string",
+          "pattern": "^\\d{2}:\\d{2}$",
+          "description": "Scheduled start of play (HH:MM)"
+        },
+        "close_of_play": {
+          "type": "string",
+          "pattern": "^\\d{2}:\\d{2}$",
+          "description": "Scheduled close of play (HH:MM)"
+        },
+        "start_time_options": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Multiple possible start times (umpire selects at match start)"
+        },
+        "non_dst_time_shift_minutes": {
+          "type": "integer",
+          "description": "Minutes to shift all times during non-daylight saving periods (negative = earlier)"
+        },
+        "total_playing_time_minutes": {
+          "type": "integer",
+          "description": "Total scheduled playing time in minutes (excluding intervals)"
+        },
+        "days": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5,
+          "description": "Number of scheduled match days"
+        },
+        "sessions": {
+          "type": "array",
+          "description": "Session structure for single-day or non-multi-day formats",
+          "items": { "$ref": "#/$defs/session" }
+        },
+        "intervals": {
+          "type": "array",
+          "description": "Interval definitions for single-day formats",
+          "items": { "$ref": "#/$defs/interval" }
+        },
+        "abandonment_cutoffs": {
+          "$ref": "#/$defs/abandonmentCutoffs"
+        },
+        "default_daily_schedule": {
+          "$ref": "#/$defs/dailySchedule",
+          "description": "Default schedule applied to each day of a multi-day match"
+        },
+        "day_overrides": {
+          "type": "object",
+          "description": "Per-day schedule overrides (keys: 'day_1', 'day_2', 'day_3', etc.)",
+          "additionalProperties": {
+            "$ref": "#/$defs/dayOverride"
+          }
+        },
+        "day_2_schedule_adjustment_table": {
+          "type": "array",
+          "description": "Day 2 schedule adjustments based on Day 1 overs lost",
+          "items": { "$ref": "#/$defs/scheduleAdjustmentRow" }
+        },
+        "next_day_make_up_max_overs": {
+          "type": "integer",
+          "description": "Maximum overs that can be made up on the following day"
+        },
+        "next_day_schedule_adjustment_table": {
+          "type": "array",
+          "description": "Next-day schedule adjustments based on overs lost",
+          "items": { "$ref": "#/$defs/scheduleAdjustmentRow" }
+        }
+      }
+    },
+    "session": {
+      "type": "object",
+      "properties": {
+        "label": { "type": "string" },
+        "start": { "type": "string", "pattern": "^\\d{2}:\\d{2}$" },
+        "end": { "type": "string", "pattern": "^\\d{2}:\\d{2}$" },
+        "overs": { "type": "integer" },
+        "duration_minutes": { "type": "integer" }
+      },
+      "required": ["label"]
+    },
+    "interval": {
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["Drinks", "Lunch", "Tea", "Stumps", "Other"],
+          "description": "Interval type"
+        },
+        "time": {
+          "type": "string",
+          "pattern": "^\\d{2}:\\d{2}$",
+          "description": "Absolute clock time for the interval"
+        },
+        "times": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^\\d{2}:\\d{2}$" },
+          "description": "Multiple fixed times (e.g., two drinks breaks)"
+        },
+        "timing": {
+          "type": "string",
+          "enum": ["fixed", "relative", "at_umpires_discretion", "fielding_captain_choice", "temperature_dependent", "fixed_over"],
+          "description": "How the interval timing is determined"
+        },
+        "duration_minutes": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Duration of the interval in minutes"
+        },
+        "advance_alert_minutes": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Minutes before the interval to send an advance haptic alert"
+        },
+        "minimum_interval_minutes": {
+          "type": "number",
+          "description": "Minimum time between intervals (for relative timing)"
+        },
+        "max_per_innings": {
+          "type": "integer",
+          "description": "Maximum number of this interval type per innings"
+        },
+        "earliest_over": {
+          "type": "integer",
+          "description": "Earliest over at which the interval may be taken"
+        },
+        "latest_over": {
+          "type": "integer",
+          "description": "Latest over by which the interval must be taken"
+        },
+        "taken_after_over": {
+          "type": ["integer", "null"],
+          "description": "Fixed over number after which the interval is taken"
+        },
+        "captains_may_forgo": {
+          "type": "boolean",
+          "description": "Whether captains may agree to skip this interval"
+        },
+        "captains_may_not_forgo": {
+          "type": "boolean",
+          "description": "Whether captains are explicitly prohibited from skipping this interval"
+        },
+        "temperature_threshold_grass_celsius": {
+          "type": "number",
+          "description": "Minimum temperature (°C) for drinks on grass grounds"
+        },
+        "temperature_threshold_synthetic_celsius": {
+          "type": "number",
+          "description": "Minimum temperature (°C) for drinks on synthetic grounds"
+        },
+        "nine_wickets_down_postpone_minutes": {
+          "type": "number",
+          "description": "Maximum minutes the interval may be postponed when 9 wickets are down"
+        },
+        "mandatory_closure_within_17_overs_rule": {
+          "type": "string",
+          "description": "Special rule when mandatory closure is within 17 overs of tea"
+        },
+        "delayed_start_shift": {
+          "type": "object",
+          "description": "How the interval time shifts when play starts late",
+          "properties": {
+            "shift_per_delay_minutes": { "type": "number" },
+            "max_shift_minutes": { "type": "number" },
+            "reference_start": { "type": "string", "pattern": "^\\d{2}:\\d{2}$" }
+          }
+        },
+        "not_taken_if_start_after": {
+          "type": "string",
+          "pattern": "^\\d{2}:\\d{2}$",
+          "description": "Interval is not taken if play starts after this time"
+        },
+        "not_taken_if_no_play_before": {
+          "type": "string",
+          "pattern": "^\\d{2}:\\d{2}$",
+          "description": "Interval is not taken if there was no play before this time"
+        },
+        "midpoint_rule": {
+          "type": "string",
+          "description": "Rule for calculating interval time as midpoint of play period"
+        },
+        "midpoint_rule_start_before_lunch": {
+          "type": "string"
+        },
+        "midpoint_rule_start_after_lunch": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "dailySchedule": {
+      "type": "object",
+      "properties": {
+        "start_time": { "type": "string", "pattern": "^\\d{2}:\\d{2}$" },
+        "close_of_play": { "type": "string", "pattern": "^\\d{2}:\\d{2}$" },
+        "extra_time_minutes": { "type": "number" },
+        "hard_cutoff": { "type": ["string", "null"], "pattern": "^\\d{2}:\\d{2}$" },
+        "minimum_play_until": { "type": "string", "pattern": "^\\d{2}:\\d{2}$" },
+        "minimum_play_exception": { "type": "string" },
+        "sessions": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/session" }
+        },
+        "intervals": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/interval" }
+        }
+      }
+    },
+    "dayOverride": {
+      "type": "object",
+      "properties": {
+        "hard_cutoff": { "type": "string", "pattern": "^\\d{2}:\\d{2}$" },
+        "minimum_play_until": { "type": "string", "pattern": "^\\d{2}:\\d{2}$" },
+        "minimum_play_exception": { "type": "string" },
+        "minimum_play_rule": { "type": "string" },
+        "notes": { "type": "string" },
+        "early_start_rules": {
+          "type": "object",
+          "properties": {
+            "trigger": { "type": "string" },
+            "start_time": { "type": "string", "pattern": "^\\d{2}:\\d{2}$" },
+            "format_change": { "type": "string" }
+          }
+        }
+      }
+    },
+    "abandonmentCutoffs": {
+      "type": "object",
+      "properties": {
+        "first_innings_start": { "type": "string", "pattern": "^\\d{2}:\\d{2}$" },
+        "second_innings_start": { "type": "string", "pattern": "^\\d{2}:\\d{2}$" },
+        "non_dst_first_innings_start": { "type": "string", "pattern": "^\\d{2}:\\d{2}$" },
+        "non_dst_second_innings_start": { "type": "string", "pattern": "^\\d{2}:\\d{2}$" },
+        "no_play_within_minutes_of_start": { "type": "integer" }
+      }
+    },
+    "scheduleAdjustmentRow": {
+      "type": "object",
+      "required": ["start", "close"],
+      "properties": {
+        "overs_lost": { "type": "integer" },
+        "overs_lost_day_1": { "type": "integer" },
+        "start": { "type": "string" },
+        "lunch": { "type": "string" },
+        "lunch_end": { "type": "string" },
+        "tea": { "type": "string" },
+        "tea_end": { "type": "string" },
+        "close": { "type": "string" }
+      }
+    },
+    "overRate": {
+      "type": "object",
+      "required": ["unit", "value"],
+      "properties": {
+        "unit": {
+          "type": "string",
+          "enum": ["minutes_per_over", "overs_per_hour"],
+          "description": "Unit for the over rate value"
+        },
+        "value": {
+          "type": "number",
+          "description": "Over rate value (e.g., 3.5 minutes per over or 15 overs per hour)"
+        },
+        "daily_over_quota": {
+          "type": "integer",
+          "description": "Minimum overs required per day (timed matches only)"
+        },
+        "enforcement": {
+          "oneOf": [
+            { "type": "null" },
+            { "$ref": "#/$defs/overRateEnforcement" }
+          ]
+        }
+      }
+    },
+    "overRateEnforcement": {
+      "type": "object",
+      "properties": {
+        "innings_time_limit_minutes": { "type": "number" },
+        "over_rate_table_reference": { "type": "string" },
+        "minimum_innings_duration_for_penalty_minutes": { "type": "number" },
+        "extended_time_table": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "minutes": { "type": "number" },
+              "overs": { "type": "integer" }
+            }
+          }
+        },
+        "penalty": {
+          "type": "object",
+          "properties": {
+            "type": { "type": "string" },
+            "description": { "type": "string" },
+            "max_fielders_outside": { "type": "integer" },
+            "additional_fielders_inside_circle": { "type": "integer" },
+            "applies_to": { "type": "string" },
+            "per_over_short": { "type": "number" },
+            "credit_overs": { "type": "integer" },
+            "runs_per_over_short": { "type": "integer" },
+            "minimum_overs_for_penalty": { "type": "integer" }
+          }
+        },
+        "over_rate_penalty_points": {
+          "type": "object",
+          "properties": {
+            "per_over_short": { "type": "number" },
+            "credit_overs": { "type": "integer" },
+            "description": { "type": "string" }
+          }
+        },
+        "allowances": {
+          "type": "object",
+          "properties": {
+            "per_wicket_minutes": { "type": "number" },
+            "per_drinks_interval_minutes": { "type": "number" }
+          }
+        },
+        "slow_over_rate_penalty_1st_2nd_grade": {
+          "type": "object",
+          "properties": {
+            "type": { "type": "string" },
+            "description": { "type": "string" },
+            "runs_per_over_short": { "type": "integer" },
+            "minimum_overs_for_penalty": { "type": "integer" },
+            "minimum_innings_duration_minutes": { "type": "number" },
+            "rate_minutes_per_over": { "type": "number" }
+          }
+        }
+      }
+    },
+    "bowlingRestrictions": {
+      "type": "object",
+      "properties": {
+        "max_overs_per_bowler": {
+          "oneOf": [
+            { "type": "integer" },
+            {
+              "type": "object",
+              "properties": {
+                "default": { "type": "integer" },
+                "formula": { "type": "string" },
+                "reduced_overs_formula": { "type": "string" }
+              },
+              "required": ["default"]
+            }
+          ]
+        },
+        "max_overs_per_bowler_4th_to_6th_grade": {
+          "type": "integer"
+        },
+        "all_bowlers_underage": {
+          "type": "boolean",
+          "description": "If true, all bowlers are subject to underage restrictions (e.g., U16 competition)"
+        },
+        "underage_restrictions_basis": {
+          "type": "string",
+          "enum": ["per_day", "per_innings"],
+          "description": "Whether underage limits apply per day or per innings"
+        },
+        "underage_rest_period_minutes": {
+          "type": "number",
+          "description": "Default rest period between spells (may be overridden per age group)"
+        },
+        "underage_restrictions": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/underageRestriction" }
+        },
+        "underage_restrictions_semi_final_grand_final": {
+          "type": "array",
+          "description": "Alternative underage limits for semi-final and grand final matches",
+          "items": { "$ref": "#/$defs/underageRestriction" }
+        }
+      }
+    },
+    "underageRestriction": {
+      "type": "object",
+      "required": ["age_group", "max_overs_per_spell", "rest_period_minutes"],
+      "properties": {
+        "age_group": {
+          "type": "string",
+          "enum": ["Under 19", "Under 17", "Under 15", "Under 14"]
+        },
+        "max_overs_per_spell": { "type": "integer" },
+        "max_overs_per_day": { "type": "integer" },
+        "max_overs_per_innings": { "type": "integer" },
+        "rest_period_minutes": { "type": "number" },
+        "rest_includes_intervals": { "type": "boolean" },
+        "cross_innings_spell_continues": {
+          "type": "boolean",
+          "description": "If true, a spell continues across a change of innings if within the rest period"
+        }
+      }
+    },
+    "bowlingEndPhase": {
+      "type": "object",
+      "required": ["name", "start_over", "end_over", "bowling_end"],
+      "properties": {
+        "name": { "type": "string" },
+        "start_over": { "type": "integer" },
+        "end_over": { "type": "integer" },
+        "bowling_end": { "type": "string" }
+      }
+    },
+    "powerPlays": {
+      "type": "object",
+      "properties": {
+        "fixed": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/fixedPowerPlay" }
+        },
+        "floating": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/floatingPowerPlay" }
+        },
+        "non_restriction_max_fielders_outside": {
+          "type": "integer",
+          "description": "Maximum fielders outside the circle during non-power-play overs"
+        },
+        "notes": { "type": "string" },
+        "reduced_overs_table": {
+          "type": "array",
+          "description": "Adjusted power play allocations when total overs are reduced",
+          "items": { "$ref": "#/$defs/reducedOversRow" }
+        }
+      }
+    },
+    "fixedPowerPlay": {
+      "type": "object",
+      "required": ["name", "start_over", "end_over", "max_fielders_outside"],
+      "properties": {
+        "name": { "type": "string" },
+        "start_over": { "type": "integer" },
+        "end_over": { "type": "integer" },
+        "max_fielders_outside": { "type": "integer" }
+      }
+    },
+    "floatingPowerPlay": {
+      "type": "object",
+      "required": ["name", "consecutive_overs", "eligible_window_start_over", "eligible_window_end_over", "max_fielders_outside"],
+      "properties": {
+        "name": { "type": "string" },
+        "consecutive_overs": { "type": "integer" },
+        "eligible_window_start_over": { "type": "integer" },
+        "eligible_window_end_over": { "type": "integer" },
+        "triggered_by": {
+          "type": "string",
+          "enum": ["batter", "fielding_captain"]
+        },
+        "max_fielders_outside": { "type": "integer" },
+        "auto_activate_at_last_eligible": { "type": "boolean" }
+      }
+    },
+    "reducedOversRow": {
+      "type": "object",
+      "required": ["total_overs"],
+      "properties": {
+        "total_overs": { "type": "integer" },
+        "pp_overs": { "type": "integer" },
+        "pp1": { "type": "integer" },
+        "pp2": { "type": "integer" },
+        "pp3": { "type": "integer" },
+        "fixed_pp_overs": { "type": "integer" },
+        "floating_pp_overs": { "type": "integer" },
+        "floating_window": { "type": ["string", "null"] }
+      }
+    },
+    "delayReductionRules": {
+      "type": "object",
+      "properties": {
+        "buffer_minutes": {
+          "type": "number",
+          "description": "Minutes of lost time before over reductions begin"
+        },
+        "minutes_per_over_lost": {
+          "type": "number",
+          "description": "Minutes of lost time per over deducted (flat model)"
+        },
+        "applies_per": {
+          "type": "string",
+          "enum": ["day", "match"],
+          "description": "Whether delay reductions apply per day or per match"
+        },
+        "applies_to": {
+          "type": "string",
+          "enum": ["both_innings", "second_innings_only"],
+          "description": "Which innings are affected (used in limited-overs flat model)"
+        },
+        "extra_time_minutes": {
+          "type": "number",
+          "description": "Maximum extra time added to scheduled close before reducing overs"
+        },
+        "before_or_during_first_innings": {
+          "$ref": "#/$defs/delayRule",
+          "description": "Delay reduction rule for time lost before or during the first innings"
+        },
+        "after_first_innings": {
+          "$ref": "#/$defs/delayRule",
+          "description": "Delay reduction rule for time lost after the first innings"
+        },
+        "minimum_overs_for_result": {
+          "type": "integer",
+          "description": "Minimum overs each team must face for a result to be valid"
+        },
+        "result_method": {
+          "type": "string",
+          "enum": ["dls", "simple_run_rate"],
+          "description": "Method used to determine the result of an interrupted match"
+        },
+        "dls_method": {
+          "type": ["string", "null"],
+          "description": "DLS version or calculator reference (null if DLS is not used)"
+        },
+        "day_2_make_up_max_overs": {
+          "type": "integer"
+        },
+        "day_2_schedule_adjustment_table": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/scheduleAdjustmentRow" }
+        }
+      }
+    },
+    "delayRule": {
+      "type": "object",
+      "required": ["buffer_minutes", "minutes_per_over_lost", "applies_to"],
+      "properties": {
+        "buffer_minutes": { "type": "number" },
+        "minutes_per_over_lost": { "type": "number" },
+        "applies_to": {
+          "type": "string",
+          "enum": ["both_innings", "second_innings_only"]
+        }
+      }
+    },
+    "superOver": {
+      "type": "object",
+      "required": ["enabled"],
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "max_batters": { "type": "integer" },
+        "max_wickets": { "type": "integer" },
+        "fielding_restriction": { "type": "string" },
+        "toss_for_batting_order": { "type": "boolean" },
+        "subsequent_super_overs": { "type": "boolean" },
+        "tie_result_if_super_over_tied": { "type": "boolean" }
+      }
+    }
+  }
+}
